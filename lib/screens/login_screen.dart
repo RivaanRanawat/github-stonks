@@ -1,10 +1,59 @@
 import 'package:flutter/material.dart';
+import 'package:github_stonks/models/User.dart';
+import 'package:github_stonks/providers/UserProvider.dart';
+import 'package:github_stonks/screens/home_screen.dart';
 import 'package:github_stonks/screens/signup_screen.dart';
 import 'package:github_stonks/universal_variables.dart';
 import 'package:github_stonks/widgets/text_field.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:http/http.dart' as http;
+import 'dart:convert' as convert;
+
+import 'package:provider/provider.dart';
 
 class LoginScreen extends StatelessWidget {
+  final TextEditingController emailController = TextEditingController();
+  final TextEditingController passwordController = TextEditingController();
+
+  void loginUser(BuildContext context) async {
+    try {
+      var uri = Uri.parse("http://localhost:3001/api/login");
+
+      var res = await http.post(uri,
+          headers: <String, String>{
+            'Content-Type': 'application/json; charset=UTF-8',
+          },
+          body: convert.jsonEncode(<String, String>{
+            "email": emailController.text,
+            "password": passwordController.text,
+          }));
+
+      var response = convert.jsonDecode(res.body);
+
+      switch (res.statusCode) {
+        case 200:
+          User user = userFromJson(res.body);
+          Provider.of<UserProvider>(context, listen: false).setUserData(
+              user.budget, user.email, user.fullName, user.id, user.token);
+          Navigator.of(context).pushReplacement(
+              MaterialPageRoute(builder: (context) => HomeScreen()));
+          break;
+        case 400:
+          ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+            content: Text(response["msg"]),
+          ));
+          break;
+        case 500:
+          ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+            content: Text(response["error"]),
+          ));
+          break;
+      }
+    } catch (err) {
+      print(err);
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -58,18 +107,18 @@ class LoginScreen extends StatelessWidget {
               SizedBox(
                 height: 24.h,
               ),
-              // getTextField(hint: "Email"),
-              // SizedBox(
-              //   height: 16.h,
-              // ),
-              // getTextField(hint: "Password"),
+              getTextField(hint: "Email", controller: emailController),
+              SizedBox(
+                height: 16.h,
+              ),
+              getTextField(hint: "Password", controller: passwordController),
               SizedBox(
                 height: 16.h,
               ),
               SizedBox(
                 width: double.infinity,
                 child: TextButton(
-                  onPressed: () {},
+                  onPressed: () => loginUser(context),
                   style: ButtonStyle(
                       backgroundColor: MaterialStateProperty.all(purpleColor),
                       foregroundColor: MaterialStateProperty.all(Colors.white),

@@ -10,18 +10,21 @@ class User {
     required this.id,
     required this.email,
     required this.fullName,
+    required this.token
   });
 
   int budget;
   String id;
   String email;
   String fullName;
+  String token;
 
   factory User.fromJson(Map<String, dynamic> json) => User(
-        budget: json["budget"],
-        id: json["_id"],
-        email: json["email"],
-        fullName: json["fullName"],
+        budget: json["user"]["budget"],
+        id: json["user"]["_id"],
+        email: json["user"]["email"],
+        fullName: json["user"]["fullName"],
+        token: json["token"]
       );
 
   Map<String, dynamic> toJson() => {

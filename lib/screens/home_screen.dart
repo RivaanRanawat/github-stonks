@@ -10,7 +10,7 @@ class HomeScreen extends StatelessWidget {
     print("data + ${data.fullName}");
     return Scaffold(
       body: Center(
-        child: Text(data.fullName),
+        child: Text(data.id),
       ),
     );
   }

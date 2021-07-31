@@ -31,19 +31,14 @@ class SignupScreen extends StatelessWidget {
             "password": passwordController.text,
             "confirmPassword": confirmPasswordController.text
           }));
-      print(emailController.text);
-      print(passwordController.text);
-      print(fullNameController.text);
-      print(confirmPasswordController.text);
       var response = convert.jsonDecode(res.body);
 
       switch (res.statusCode) {
         case 200:
-          User user = userFromJson(res.body);
-          Provider.of<UserProvider>(context, listen: false)
-              .setUserData(user.budget, user.email, user.fullName, user.id);
+          ScaffoldMessenger.of(context)
+              .showSnackBar(SnackBar(content: Text("Account Created!")));
           Navigator.of(context).pushReplacement(
-              MaterialPageRoute(builder: (context) => HomeScreen()));
+              MaterialPageRoute(builder: (context) => LoginScreen()));
           break;
         case 400:
           ScaffoldMessenger.of(context).showSnackBar(SnackBar(

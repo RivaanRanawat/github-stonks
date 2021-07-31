@@ -5,7 +5,6 @@ const userRouter = express.Router();
 const auth = require("../middleware/auth");
 const jwt = require("jsonwebtoken");
 
-
 // Sign up Route
 
 userRouter.post("/api/signup", async (req, res) => {
@@ -32,7 +31,7 @@ userRouter.post("/api/signup", async (req, res) => {
     const newUser = new User({
       email,
       password: hashedPassword,
-      fullName
+      fullName,
     });
 
     const savedUser = await newUser.save();
@@ -41,7 +40,6 @@ userRouter.post("/api/signup", async (req, res) => {
     res.status(500).json({ error: err.message });
   }
 });
-
 
 // Login Route
 
@@ -65,7 +63,7 @@ userRouter.post("/api/login", async (req, res) => {
       return res.status(400).send({ msg: "Incorrect password." });
     }
     const token = jwt.sign({ id: user._id }, "passwordKey");
-    res.json({ token, user: { id: user._id, username: user.username } });
+    res.json({ token, user });
   } catch (err) {
     res.status(500).json({ error: err.message });
   }
