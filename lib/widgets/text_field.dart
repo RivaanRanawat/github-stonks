@@ -2,8 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:github_stonks/universal_variables.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
-Widget getTextField({required String hint}) {
+Widget getTextField({required String hint, required TextEditingController controller}) {
     return TextField(
+      controller: controller,
       decoration: InputDecoration(
           border: OutlineInputBorder(
             borderRadius: BorderRadius.circular(8.r),

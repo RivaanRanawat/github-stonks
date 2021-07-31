@@ -58,11 +58,11 @@ class LoginScreen extends StatelessWidget {
               SizedBox(
                 height: 24.h,
               ),
-              getTextField(hint: "Email"),
-              SizedBox(
-                height: 16.h,
-              ),
-              getTextField(hint: "Password"),
+              // getTextField(hint: "Email"),
+              // SizedBox(
+              //   height: 16.h,
+              // ),
+              // getTextField(hint: "Password"),
               SizedBox(
                 height: 16.h,
               ),

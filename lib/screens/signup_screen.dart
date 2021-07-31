@@ -1,10 +1,66 @@
 import 'package:flutter/material.dart';
+import 'package:github_stonks/models/User.dart';
+import 'package:github_stonks/providers/UserProvider.dart';
+import 'package:github_stonks/screens/home_screen.dart';
 import 'package:github_stonks/screens/login_screen.dart';
 import 'package:github_stonks/universal_variables.dart';
 import 'package:github_stonks/widgets/text_field.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:http/http.dart' as http;
+import 'dart:convert' as convert;
+
+import 'package:provider/provider.dart';
 
 class SignupScreen extends StatelessWidget {
+  final TextEditingController fullNameController = TextEditingController();
+  final TextEditingController passwordController = TextEditingController();
+  final TextEditingController confirmPasswordController =
+      TextEditingController();
+  final TextEditingController emailController = TextEditingController();
+
+  void signUpUser(BuildContext context) async {
+    try {
+      var uri = Uri.parse("http://localhost:3001/api/signup");
+      var res = await http.post(uri,
+          headers: <String, String>{
+            'Content-Type': 'application/json; charset=UTF-8',
+          },
+          body: convert.jsonEncode(<String, String>{
+            "email": emailController.text,
+            "fullName": fullNameController.text,
+            "password": passwordController.text,
+            "confirmPassword": confirmPasswordController.text
+          }));
+      print(emailController.text);
+      print(passwordController.text);
+      print(fullNameController.text);
+      print(confirmPasswordController.text);
+      var response = convert.jsonDecode(res.body);
+
+      switch (res.statusCode) {
+        case 200:
+          User user = userFromJson(res.body);
+          Provider.of<UserProvider>(context, listen: false)
+              .setUserData(user.budget, user.email, user.fullName, user.id);
+          Navigator.of(context).pushReplacement(
+              MaterialPageRoute(builder: (context) => HomeScreen()));
+          break;
+        case 400:
+          ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+            content: Text(response["msg"]),
+          ));
+          break;
+        case 500:
+          ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+            content: Text(response["error"]),
+          ));
+          break;
+      }
+    } catch (err) {
+      print(err);
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -58,26 +114,28 @@ class SignupScreen extends StatelessWidget {
               SizedBox(
                 height: 24.h,
               ),
-              getTextField(hint: "Full Name"),
+              getTextField(hint: "Full Name", controller: fullNameController),
               SizedBox(
                 height: 16.h,
               ),
-              getTextField(hint: "Email"),
+              getTextField(hint: "Email", controller: emailController),
               SizedBox(
                 height: 16.h,
               ),
-              getTextField(hint: "Password"),
+              getTextField(hint: "Password", controller: passwordController),
               SizedBox(
                 height: 16.h,
               ),
-              getTextField(hint: "Confirm Password"),
+              getTextField(
+                  hint: "Confirm Password",
+                  controller: confirmPasswordController),
               SizedBox(
                 height: 16.h,
               ),
               SizedBox(
                 width: double.infinity,
                 child: TextButton(
-                  onPressed: () {},
+                  onPressed: () => signUpUser(context),
                   style: ButtonStyle(
                       backgroundColor: MaterialStateProperty.all(purpleColor),
                       foregroundColor: MaterialStateProperty.all(Colors.white),
