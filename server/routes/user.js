@@ -18,9 +18,16 @@ userRouter.post("/api/signup", async (req, res) => {
         .status(400)
         .json({ msg: "Password should be atleast 6 characters" });
     }
+    
     if (confirmPassword !== password) {
       return res.status(400).json({ msg: "Both the passwords dont match" });
     }
+
+    const re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+    if(!re.test(email.toLowerCase())) {
+      return res.status(400).json({msg: "Please enter a valid email"})
+    }
+
     const existingUser = await User.findOne({ email });
     if (existingUser) {
       return res
