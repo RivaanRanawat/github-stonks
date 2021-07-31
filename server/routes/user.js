@@ -69,4 +69,31 @@ userRouter.post("/api/login", async (req, res) => {
   }
 });
 
+// checking if token is valid
+
+userRouter.post("/tokenIsValid", async (req, res) => {
+  try {
+    const token = req.header("x-auth-token");
+    if (!token) return res.json(false);
+    const verified = jwt.verify(token, "passwordKey");
+    if (!verified) return res.json(false);
+    const user = await User.findById(verified.id);
+    if (!user) return res.json(false);
+    return res.json(true);
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+});
+
+// getting user's credentials
+userRouter.get("/", auth, async (req, res) => {
+  const user = await User.findById(req.user);
+  res.json({
+    budget: user.budget,
+    email: user.email,
+    fullName: user.fullName,
+    id: user.id,
+  });
+});
+
 module.exports = userRouter;

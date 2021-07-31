@@ -10,6 +10,7 @@ import 'package:http/http.dart' as http;
 import 'dart:convert' as convert;
 
 import 'package:provider/provider.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class LoginScreen extends StatelessWidget {
   final TextEditingController emailController = TextEditingController();
@@ -30,13 +31,23 @@ class LoginScreen extends StatelessWidget {
 
       var response = convert.jsonDecode(res.body);
 
+      SharedPreferences preferences = await SharedPreferences.getInstance();
+
       switch (res.statusCode) {
         case 200:
           User user = userFromJson(res.body);
+          print(user.token);
           Provider.of<UserProvider>(context, listen: false).setUserData(
               user.budget, user.email, user.fullName, user.id, user.token);
-          Navigator.of(context).pushReplacement(
-              MaterialPageRoute(builder: (context) => HomeScreen()));
+          // Storing auth token in memory of the device
+          preferences
+              .setString("x-auth-token", user.token)
+              .then((bool isSuccess) {
+            if (isSuccess) {
+              Navigator.of(context).pushReplacement(
+                  MaterialPageRoute(builder: (context) => HomeScreen()));
+            }
+          });
           break;
         case 400:
           ScaffoldMessenger.of(context).showSnackBar(SnackBar(
