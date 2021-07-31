@@ -2,6 +2,9 @@ const express = require("express");
 const bcryptjs = require("bcryptjs");
 const User = require("../models/user");
 const userRouter = express.Router();
+const auth = require("../middleware/auth");
+const jwt = require("jsonwebtoken");
+
 
 // Sign up Route
 
@@ -34,6 +37,35 @@ userRouter.post("/api/signup", async (req, res) => {
 
     const savedUser = await newUser.save();
     res.json(savedUser);
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+});
+
+
+// Login Route
+
+userRouter.post("/api/login", async (req, res) => {
+  try {
+    const { email, password } = req.body;
+    if (!email || !password) {
+      return res.status(400).json({ msg: "Please enter all the fields" });
+    }
+
+    const user = await User.findOne({ email });
+    if (!user) {
+      return res
+        .status(400)
+        .send({ msg: "User with this email does not exist" });
+    }
+
+    const isMatch = await bcryptjs.compare(password, user.password);
+
+    if (!isMatch) {
+      return res.status(400).send({ msg: "Incorrect password." });
+    }
+    const token = jwt.sign({ id: user._id }, "passwordKey");
+    res.json({ token, user: { id: user._id, username: user.username } });
   } catch (err) {
     res.status(500).json({ error: err.message });
   }
