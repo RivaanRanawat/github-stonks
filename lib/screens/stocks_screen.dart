@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:github_stonks/models/product.dart';
 import 'package:github_stonks/providers/ProductsProvider.dart';
 import 'package:github_stonks/providers/UserProvider.dart';
+import 'package:github_stonks/screens/details_screen.dart';
 import 'package:github_stonks/universal_variables.dart';
 import 'package:github_stonks/widgets/category_list.dart';
 import 'package:github_stonks/widgets/stocks_card.dart';
@@ -121,15 +122,15 @@ class _StocksScreenState extends State<StocksScreen> {
                     itemBuilder: (context, index) => StocksCard(
                       itemIndex: index,
                       product: productsList.getProductData(index),
-                      press: () {
-                        // Navigator.push(
-                        //   context,
-                        //   MaterialPageRoute(
-                        //     builder: (context) => DetailsScreen(
-                        //       product: products[index],
-                        //     ),
-                        //   ),
-                        // );
+                      onPress: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => DetailsScreen(
+                              product: productsList.getProductData(index),
+                            ),
+                          ),
+                        );
                       },
                     ),
                   )

@@ -6,12 +6,12 @@ class StocksCard extends StatelessWidget {
   const StocksCard({
     required this.itemIndex,
     required this.product,
-    required this.press,
+    required this.onPress,
   });
 
   final int itemIndex;
   final Product product;
-  final Function press;
+  final void Function() onPress;
 
   @override
   Widget build(BuildContext context) {
@@ -23,7 +23,7 @@ class StocksCard extends StatelessWidget {
       ),
       height: 160,
       child: GestureDetector(
-        onTap: () => press,
+        onTap: onPress,
         child: Stack(
           alignment: Alignment.bottomCenter,
           children: <Widget>[
