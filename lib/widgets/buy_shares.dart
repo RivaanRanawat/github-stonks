@@ -1,13 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:github_stonks/universal_variables.dart';
 
-class ChatAndAddToCart extends StatefulWidget {
+class BuyShares extends StatefulWidget {
+  final int shares;
+  BuyShares({required this.shares});
   @override
-  _ChatAndAddToCartState createState() => _ChatAndAddToCartState();
+  _BuySharesState createState() => _BuySharesState();
 }
 
-class _ChatAndAddToCartState extends State<ChatAndAddToCart> {
-  double numOfShares = 0;
+class _BuySharesState extends State<BuyShares> {
+  double numOfShares = 1;
 
   @override
   Widget build(BuildContext context) {
@@ -24,17 +26,18 @@ class _ChatAndAddToCartState extends State<ChatAndAddToCart> {
       child: Row(
         children: <Widget>[
           Slider(
-              activeColor: Colors.white,
-              onChanged: (double value) {
-                setState(() {
-                  numOfShares = value;
-                });
-              },
-              value: numOfShares,
-              min: 0,
-              max: 200,
-              divisions: 200,
-              label: "$numOfShares"),
+            activeColor: Colors.white,
+            onChanged: (double value) {
+              setState(() {
+                numOfShares = value;
+              });
+            },
+            value: numOfShares.toDouble(),
+            min: 1,
+            max: widget.shares.toDouble(),
+            divisions: widget.shares,
+            label: numOfShares.toStringAsFixed(2),
+          ),
           Spacer(),
           TextButton(
             onPressed: () {},

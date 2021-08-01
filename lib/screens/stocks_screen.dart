@@ -39,11 +39,13 @@ class _StocksScreenState extends State<StocksScreen> {
         case 200:
           response.forEach((element) {
             Product newProd = new Product(
-                stockPrice: element["stockPrice"],
-                stars: element["stars"],
-                id: element["_id"],
-                name: element["name"],
-                image: element["image"]);
+              stockPrice: element["stockPrice"],
+              stars: element["stars"],
+              id: element["_id"],
+              name: element["name"],
+              image: element["image"],
+              sharesAvailable: element["sharesAvailable"],
+            );
             Provider.of<ProductsProvider>(context, listen: false)
                 .setProductData(newProd);
           });

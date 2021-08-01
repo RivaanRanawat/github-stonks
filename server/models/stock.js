@@ -17,7 +17,11 @@ const stockSchema = mongoose.Schema({
     stars: {
         type: Number,
         default: 0
-    }
+    },
+    sharesAvailable: {
+        type: Number,
+        default: 1000
+    },
 });
 
 const Stock = mongoose.model("stock", stockSchema);

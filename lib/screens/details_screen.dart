@@ -81,7 +81,7 @@ class DetailsScreen extends StatelessWidget {
                       padding:
                           EdgeInsets.symmetric(vertical: kDefaultPadding / 2),
                       child: Text(
-                        "Details",
+                        "${product.sharesAvailable} shares available",
                         style: TextStyle(color: kTextLightColor),
                       ),
                     ),
@@ -89,7 +89,7 @@ class DetailsScreen extends StatelessWidget {
                   ],
                 ),
               ),
-              ChatAndAddToCart(),
+              BuyShares(shares: product.sharesAvailable),
             ],
           ),
         ),
