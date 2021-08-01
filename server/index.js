@@ -1,15 +1,17 @@
 const express = require("express");
 const mongoose = require("mongoose");
 const cors = require("cors");
-const userRouter = require("./routes/user");
 const app = express();
-const stocksRouter = require("./api/githubStocks");
+const userRouter = require("./routes/user"); // router to perform user login/signup operations
+const githubStocksRouter = require("./api/githubStocks"); // router to crawl web and get data
+const stocksRouter = require("./routes/stock"); // router to perform stock operations
 
 const PORT = process.env.PORT || 3001;
 
 app.use(express.json());
 app.use(cors());
 app.use(userRouter);
+app.use(githubStocksRouter);
 app.use(stocksRouter);
 
 

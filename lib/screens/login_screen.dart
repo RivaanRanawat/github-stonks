@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:github_stonks/models/User.dart';
 import 'package:github_stonks/providers/UserProvider.dart';
-import 'package:github_stonks/screens/home_screen.dart';
 import 'package:github_stonks/screens/signup_screen.dart';
+import 'package:github_stonks/screens/stocks_screen.dart';
 import 'package:github_stonks/universal_variables.dart';
 import 'package:github_stonks/widgets/text_field.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -45,7 +45,7 @@ class LoginScreen extends StatelessWidget {
               .then((bool isSuccess) {
             if (isSuccess) {
               Navigator.of(context).pushReplacement(
-                  MaterialPageRoute(builder: (context) => HomeScreen()));
+                  MaterialPageRoute(builder: (context) => StocksScreen()));
             }
           });
           break;

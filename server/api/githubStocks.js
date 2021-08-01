@@ -1,5 +1,5 @@
 const express = require("express");
-const stocksRouter = express.Router();
+const githubStocksRouter = express.Router();
 const auth = require("../middleware/auth");
 const cheerio = require("cheerio");
 const axios = require("axios");
@@ -8,8 +8,8 @@ const Stock = require("../models/stock");
 const url = "https://gitstar-ranking.com/repositories";
 
 // Crawling the website and storing the stocks data to mongodb.
-
-stocksRouter.get("/api/github-repos", async (req, res) => {
+// Didnt add auth middleware so that accessible to everyone in need
+githubStocksRouter.get("/api/github-repos", async (req, res) => {
   try {
     let response = await fetchData(url);
     const html = response.data;
@@ -48,4 +48,4 @@ async function fetchData(url) {
   return response;
 }
 
-module.exports = stocksRouter;
+module.exports = githubStocksRouter;

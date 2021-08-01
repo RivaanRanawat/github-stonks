@@ -1,15 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:github_stonks/models/User.dart';
-import 'package:github_stonks/providers/UserProvider.dart';
-import 'package:github_stonks/screens/home_screen.dart';
 import 'package:github_stonks/screens/login_screen.dart';
 import 'package:github_stonks/universal_variables.dart';
 import 'package:github_stonks/widgets/text_field.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert' as convert;
-
-import 'package:provider/provider.dart';
 
 class SignupScreen extends StatelessWidget {
   final TextEditingController fullNameController = TextEditingController();
