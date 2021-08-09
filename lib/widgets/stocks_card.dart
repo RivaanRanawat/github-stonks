@@ -80,22 +80,42 @@ class StocksCard extends StatelessWidget {
                       ),
                     ),
                     Spacer(),
-                    Container(
-                      padding: EdgeInsets.symmetric(
-                        horizontal: kDefaultPadding * 1.5,
-                        vertical: kDefaultPadding / 4,
-                      ),
-                      decoration: BoxDecoration(
-                        color: kPrimaryColor,
-                        borderRadius: BorderRadius.only(
-                          bottomLeft: Radius.circular(22),
-                          topRight: Radius.circular(22),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Container(
+                          padding: EdgeInsets.symmetric(
+                            horizontal: kDefaultPadding * 1.5,
+                            vertical: kDefaultPadding / 4,
+                          ),
+                          decoration: BoxDecoration(
+                            color: kPrimaryColor,
+                            borderRadius: BorderRadius.only(
+                              bottomLeft: Radius.circular(22),
+                              topRight: Radius.circular(22),
+                            ),
+                          ),
+                          child: Text(
+                            "\$${product.stockPrice}",
+                            style: TextStyle(color: Colors.white),
+                          ),
                         ),
-                      ),
-                      child: Text(
-                        "\$${product.stockPrice}",
-                        style: TextStyle(color: Colors.white),
-                      ),
+                        Container(
+                          margin: EdgeInsets.only(right: 30),
+                          child: Row(
+                            children: [
+                              Icon(
+                                Icons.star_border,
+                                color: Colors.black,
+                              ),
+                              Text(
+                                product.stars.toString(),
+                                style: TextStyle(color: Colors.black),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ],
                     ),
                   ],
                 ),

@@ -77,13 +77,30 @@ class DetailsScreen extends StatelessWidget {
                         color: kPrimaryColor,
                       ),
                     ),
-                    Padding(
-                      padding:
-                          EdgeInsets.symmetric(vertical: kDefaultPadding / 2),
-                      child: Text(
-                        "${product.sharesAvailable} shares available",
-                        style: TextStyle(color: kTextLightColor),
-                      ),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Padding(
+                          padding: EdgeInsets.symmetric(
+                              vertical: kDefaultPadding / 2),
+                          child: Text(
+                            "${product.sharesAvailable} shares available",
+                            style: TextStyle(color: kTextLightColor),
+                          ),
+                        ),
+                        Row(
+                          children: [
+                            Icon(
+                              Icons.star_border,
+                              color: Colors.black,
+                            ),
+                            Text(
+                              product.stars.toString(),
+                              style: TextStyle(color: Colors.black),
+                            ),
+                          ],
+                        ),
+                      ],
                     ),
                     SizedBox(height: kDefaultPadding),
                   ],
