@@ -20,6 +20,10 @@ const userSchema = new mongoose.Schema({
     budget: {
         type: Number,
         default: 5000
+    },
+    stocksOwned: {
+        type: Array,
+        default: []
     }
 });
 
