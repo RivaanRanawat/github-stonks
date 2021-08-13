@@ -14,7 +14,7 @@ class Product {
         required this.sharesAvailable
     });
 
-    int stockPrice;
+    double stockPrice;
     int stars;
     String id;
     String name;

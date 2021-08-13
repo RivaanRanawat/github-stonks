@@ -36,6 +36,28 @@ githubStocksRouter.get("/api/github-repos", async (req, res) => {
   }
 });
 
+// Update the stars
+githubStocksRouter.get("/api/update-github-repos", auth,async (req, res) => {
+  try {
+    let response = await fetchData(url);
+    const html = response.data;
+    const $ = cheerio.load(html);
+    const titleTable = $(".list-group > a");
+
+    titleTable.each(async function () {
+      let title = $(this).find("span").find(".hidden-xs").text().split("\n")[1];
+      let stars = $(this).find(".stargazers_count").text().split("\n")[2];
+      let stock = await Stock.findOne({name: title});
+      stock.stars = stars;
+      stock.stockPrice = ((stars/1000) + ((1000 - stock.sharesAvailable)*0.05)).toFixed(2);
+      await stock.save();
+    });
+    res.json({});
+  } catch (err) {
+    res.status(500).json(err);
+  }
+});
+
 async function fetchData(url) {
   console.log("Crawling data...");
   // making http call to url
