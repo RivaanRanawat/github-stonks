@@ -18,4 +18,9 @@ class ProductsProvider extends ChangeNotifier {
   List<Product> getProductslist() {
     return productsList;
   }
+
+  void setProductDataByIndex(int index, Product newProduct) {
+    productsList[index] = newProduct;
+    notifyListeners();
+  }
 }

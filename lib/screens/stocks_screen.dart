@@ -145,6 +145,7 @@ class _StocksScreenState extends State<StocksScreen> {
                                     builder: (context) => DetailsScreen(
                                       product:
                                           productsList.getProductData(index),
+                                          index: index
                                     ),
                                   ),
                                 );

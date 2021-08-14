@@ -6,8 +6,9 @@ import 'package:github_stonks/universal_variables.dart';
 
 class DetailsScreen extends StatelessWidget {
   final Product product;
+  final int index;
 
-  const DetailsScreen({required this.product});
+  const DetailsScreen({required this.product, required this.index});
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
@@ -106,7 +107,7 @@ class DetailsScreen extends StatelessWidget {
                   ],
                 ),
               ),
-              BuyShares(shares: product.sharesAvailable),
+              BuyShares(product: product, index: index),
             ],
           ),
         ),

@@ -16,14 +16,15 @@ stocksRouter.get("/api/stock-data/all", auth, async (req, res) => {
 
 stocksRouter.post("/api/buy-stock", auth, async (req, res) => {
   try {
-    const { name, noOfSharesBought } = req.body;
+    let { name, noOfSharesBought } = req.body;
+    noOfSharesBought = parseInt(noOfSharesBought);
     if (!name || !noOfSharesBought)
-      return res.json({ msg: "Please enter all the fields!" });
+      return res.status(400).json({ msg: "Please enter all the fields!" });
     const stock = await Stock.findOne({ name });
     if (!stock)
-      return res.json({ msg: "Buying Failed! Please try again later!" });
+      return res.status(400).json({ msg: "Buying Failed! Please try again later!" });
     if (noOfSharesBought > stock.sharesAvailable)
-      return res.json({
+      return res.status(400).json({
         msg: "The number of shares you are trying to buy are more than number of shares left.",
       });
     stock.sharesAvailable -= noOfSharesBought;
