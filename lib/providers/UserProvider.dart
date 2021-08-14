@@ -5,7 +5,7 @@ import 'package:provider/provider.dart';
 class UserProvider extends ChangeNotifier {
   User _user = new User(budget: 0, email: '', fullName: '', id: '', token: '');
 
-  void setUserData(int budget, String email, String fullName, String id, String token) {
+  void setUserData(double budget, String email, String fullName, String id, String token) {
     _user.budget = budget;
     _user.email = email;
     _user.fullName = fullName;

@@ -13,7 +13,7 @@ class User {
     required this.token
   });
 
-  int budget;
+  double budget;
   String id;
   String email;
   String fullName;

@@ -16,7 +16,7 @@ class DetailsScreen extends StatelessWidget {
     return Scaffold(
       backgroundColor: purpleColor,
       appBar: AppBar(
-        backgroundColor: kBackgroundColor,
+        backgroundColor: Colors.white,
         elevation: 0,
         leading: IconButton(
           padding: EdgeInsets.only(left: kDefaultPadding),
@@ -44,7 +44,7 @@ class DetailsScreen extends StatelessWidget {
                 width: double.infinity,
                 padding: EdgeInsets.symmetric(horizontal: kDefaultPadding),
                 decoration: BoxDecoration(
-                  color: kBackgroundColor,
+                  color: Colors.white,
                   borderRadius: BorderRadius.only(
                     bottomLeft: Radius.circular(50),
                     bottomRight: Radius.circular(50),

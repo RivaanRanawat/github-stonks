@@ -99,7 +99,7 @@ class _BuySharesState extends State<BuyShares> {
             },
             value: numOfShares.toDouble(),
             min: 1,
-            max: widget.product.sharesAvailable.toDouble(),
+            max: widget.product.sharesAvailable.toDouble() - 1,
             divisions: widget.product.sharesAvailable,
             label: numOfShares.toStringAsFixed(2),
           ),
