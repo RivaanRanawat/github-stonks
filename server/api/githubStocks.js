@@ -36,7 +36,7 @@ githubStocksRouter.get("/api/github-repos", async (req, res) => {
   }
 });
 
-// Update the stars
+// Update the stars and stock price
 githubStocksRouter.get("/api/update-github-repos", auth,async (req, res) => {
   try {
     let response = await fetchData(url);
@@ -49,7 +49,7 @@ githubStocksRouter.get("/api/update-github-repos", auth,async (req, res) => {
       let stars = $(this).find(".stargazers_count").text().split("\n")[2];
       let stock = await Stock.findOne({name: title});
       stock.stars = stars;
-      stock.stockPrice = ((stars/1000) + ((1000 - stock.sharesAvailable)*0.05)).toFixed(2);
+      stock.stockPrice = ((stars/10000) + ((1000 - stock.sharesAvailable)*0.05)).toFixed(2);
       await stock.save();
     });
     res.json({});
