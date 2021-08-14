@@ -4,6 +4,7 @@ import 'package:github_stonks/providers/ProductsProvider.dart';
 import 'package:github_stonks/providers/UserProvider.dart';
 import 'package:github_stonks/screens/details_screen.dart';
 import 'package:github_stonks/universal_variables.dart';
+import 'package:github_stonks/utils/mongo_db_repo.dart';
 import 'package:github_stonks/widgets/category_list.dart';
 import 'package:github_stonks/widgets/stocks_card.dart';
 import 'dart:convert' as convert;
@@ -36,43 +37,7 @@ class _StocksScreenState extends State<StocksScreen> {
         },
       );
       if (githubRepoRes.statusCode == 200) {
-        var uri = Uri.parse("http://localhost:3001/api/stock-data/all");
-        var res = await http.get(
-          uri,
-          headers: <String, String>{
-            'Content-Type': 'application/json; charset=UTF-8',
-            'x-auth-token': Provider.of<UserProvider>(context, listen: false)
-                .getUserData()
-                .token,
-          },
-        );
-        var response = convert.jsonDecode(res.body);
-        switch (res.statusCode) {
-          case 200:
-            response.forEach((element) {
-              Product newProd = new Product(
-                stockPrice: element["stockPrice"].toDouble(),
-                stars: element["stars"],
-                id: element["_id"],
-                name: element["name"],
-                image: element["image"],
-                sharesAvailable: element["sharesAvailable"],
-              );
-              Provider.of<ProductsProvider>(context, listen: false)
-                  .setProductData(newProd);
-            });
-            break;
-          case 400:
-            ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-              content: Text(response["msg"]),
-            ));
-            break;
-          case 500:
-            ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-              content: Text(response["error"]),
-            ));
-            break;
-        }
+        fetchTopStocks(context);
       }
     } catch (err) {
       print(err);

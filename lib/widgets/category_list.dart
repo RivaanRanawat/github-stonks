@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:github_stonks/universal_variables.dart';
-
+import 'package:github_stonks/utils/mongo_db_repo.dart';
 
 class CategoryList extends StatefulWidget {
   @override
@@ -8,9 +8,9 @@ class CategoryList extends StatefulWidget {
 }
 
 class _CategoryListState extends State<CategoryList> {
-  
   int selectedIndex = 0;
   List categories = ['Top Stocks', 'Your Stocks', 'Trending Stocks'];
+
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -24,6 +24,19 @@ class _CategoryListState extends State<CategoryList> {
             setState(() {
               selectedIndex = index;
             });
+            switch (index) {
+              case 0:
+                // Top Stocks
+                fetchTopStocks(context);
+                break;
+              case 1:
+                // Your Stocks
+                fetchYourStocks(context);
+                break;
+              case 2:
+                // Trending Stocks
+                break;
+            }
           },
           child: Container(
             alignment: Alignment.center,

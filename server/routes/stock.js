@@ -53,4 +53,9 @@ stocksRouter.post("/api/buy-stock", auth, async (req, res) => {
   }
 });
 
+stocksRouter.get("/api/get-my-stocks", auth, async (req, res) => {
+  const user = await User.findById(req.user);
+  res.json(user.stocksOwned);
+});
+
 module.exports = stocksRouter;
